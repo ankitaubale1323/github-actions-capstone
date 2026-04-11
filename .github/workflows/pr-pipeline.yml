@@ -9,7 +9,7 @@ jobs:
   build-test:
     uses: ./.github/workflows/reusable-build-test.yml
     with:
-      python_version: "3.9"
+      python_version: "3.11"
       run_tests: true
 
   pr-comment:
