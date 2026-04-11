@@ -31,11 +31,14 @@ jobs:
         run: echo "${{ secrets.docker_token }}" | docker login -u "${{ secrets.docker_username }}" --password-stdin
 
       - name: Build Image
-        run: docker build -t ${{ inputs.image_name }}:${{ inputs.tag }} .
-
+        run: |
+          docker build -t ${{ secrets.docker_username }}/${{ inputs.image_name }}:${{ inputs.tag }} .
+          
       - name: Push Image
-        run: docker push ${{ inputs.image_name }}:${{ inputs.tag }}
-
+        run: |
+          docker push ${{ secrets.docker_username }}/${{ inputs.image_name }}:${{ inputs.tag }}
+      
       - name: Set Output
-        id: set_output
-        run: echo "image=${{ inputs.image_name }}:${{ inputs.tag }}" >> $GITHUB_OUTPUT
+        id: set
+        run: |
+          echo "image=${{ secrets.docker_username }}/${{ inputs.image_name }}:${{ inputs.tag }}" >> $GITHUB_OUTPUT
