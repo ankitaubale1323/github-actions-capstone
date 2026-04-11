@@ -33,11 +33,14 @@ jobs:
 
       - name: Run Tests
         if: ${{ inputs.run_tests }}
-        run: |
-          python app.py &
-          sleep 5
-          bash test.sh
+        id: test
+        run: bash test/test.sh
 
       - name: Set Result
         id: set_result
-        run: echo "result=passed" >> $GITHUB_OUTPUT
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "result=passed" >> $GITHUB_OUTPUT
+          else
+            echo "result=failed" >> $GITHUB_OUTPUT
+          fi
