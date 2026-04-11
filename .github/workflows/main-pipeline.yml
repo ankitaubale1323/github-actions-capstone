@@ -13,9 +13,11 @@ jobs:
   docker:
     needs: build-test
     uses: ./.github/workflows/reusable-docker.yml
+
     with:
-      image_name: ${{ vars.DOCKER_USERNAME }}/github-actions-app
+      image_name: github-actions-app   # ✅ ONLY app name here
       tag: latest
+
     secrets:
       docker_username: ${{ secrets.DOCKER_USERNAME }}
       docker_token: ${{ secrets.DOCKER_TOKEN }}
@@ -25,5 +27,4 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
-      - name: Deploy
-        run: echo "Deploying image ${{ needs.docker.outputs.image_url }} to production"
+      - run: echo "Deploying image ${{ needs.docker.outputs.image_url }}"
